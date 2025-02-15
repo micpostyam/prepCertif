@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Certification {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  numberOfQuestions Int
+  duration    Int
+  questions   Question[]
+  exams       Exam[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String
+  name          String?
+  role          String   @default("USER")
+  exams         Exam[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Question {
+  id              String        @id @default(cuid())
+  text            String
+  certification   Certification @relation(fields: [certificationId], references: [id])
+  certificationId String
+  options         Option[]
+  ExamQuestion    ExamQuestion[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Option {
+  id          String    @id @default(cuid())
+  text        String
+  details     String?
+  isCorrect   Boolean
+  question    Question  @relation(fields: [questionId], references: [id])
+  questionId  String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Exam {
+  id              String          @id @default(cuid())
+  user            User            @relation(fields: [userId], references: [id])
+  userId          String
+  certification   Certification   @relation(fields: [certificationId], references: [id])
+  certificationId String
+  status          String          @default("in_progress") // in_progress, completed
+  score           Float?
+  examQuestions   ExamQuestion[]
+  startedAt       DateTime        @default(now())
+  completedAt     DateTime?
+}
+
+model ExamQuestion {
+  id          String    @id @default(cuid())
+  exam        Exam      @relation(fields: [examId], references: [id])
+  examId      String
+  question    Question  @relation(fields: [questionId], references: [id])
+  questionId  String
+  answers     String    // Stocké comme JSON array des IDs d'options
+  isCorrect   Boolean?
+  createdAt   DateTime  @default(now())
+}
