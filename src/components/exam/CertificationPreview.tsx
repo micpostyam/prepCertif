@@ -30,7 +30,7 @@ export function CertificationPreview({ certification, onBack, onStart }: Certifi
           </div>
         </div>
         <Button onClick={onStart} size="lg">
-          Démarrer l'examen
+          Démarrer l&apos;examen
         </Button>
       </div>
     </div>

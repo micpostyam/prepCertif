@@ -12,7 +12,13 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { certificationId } = body
 
-    // Récupérer la certification avec ses questions
+    if (!certificationId) {
+      return NextResponse.json(
+        { error: 'certificationId est requis' },
+        { status: 400 }
+      )
+    }
+
     const certification = await prisma.certification.findUnique({
       where: { id: certificationId },
       include: {
@@ -31,47 +37,12 @@ export async function POST(request: Request) {
       )
     }
 
-    // Mélanger toutes les questions et en prendre numberOfQuestions
-    const shuffledQuestions = certification.questions
-      .sort(() => Math.random() - 0.5)
-      .slice(0, certification.numberOfQuestions)
+    return NextResponse.json({ certification }, { status: 200 })
 
-    // Créer l'examen avec ses questions
-    const exam = await prisma.exam.create({
-      data: {
-        userId: user.id, // Utiliser l'ID de l'utilisateur du token
-        certificationId,
-        status: 'in_progress',
-        examQuestions: {
-          create: shuffledQuestions.map(question => ({
-            questionId: question.id
-          }))
-        }
-      },
-      include: {
-        examQuestions: {
-          include: {
-            question: {
-              include: {
-                options: {
-                  select: {
-                    id: true,
-                    text: true,
-                    isCorrect: true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    })
-
-    return NextResponse.json(exam)
   } catch (error) {
-    console.error('Erreur lors de la création de l\'examen:', error)
+    console.error('Error fetching certification:', error)
     return NextResponse.json(
-      { error: 'Erreur lors de la création de l\'examen' },
+      { error: 'Erreur serveur interne' },
       { status: 500 }
     )
   }

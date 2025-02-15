@@ -30,10 +30,18 @@ export function ExamModal({ certification }: ExamModalProps) {
       .then(exam => {
         setExamId(exam.id)
         setQuestions(exam.examQuestions)
+        // Initialiser les réponses depuis les données existantes
+        const initialAnswers: Record<string, string[]> = {}
+        exam.examQuestions.forEach((q: any) => {
+          if (q.answers) {
+            initialAnswers[q.id] = JSON.parse(q.answers)
+          }
+        })
+        setAnswers(initialAnswers)
       })
   }, [certification.id])
 
-  const handleAnswer = (optionId: string) => {
+  const handleAnswer = async (optionId: string) => {
     const currentAnswers = answers[questions[currentIndex].id] || []
     let newAnswers: string[]
     
@@ -60,14 +68,18 @@ export function ExamModal({ certification }: ExamModalProps) {
     }))
 
     // Sauvegarder la réponse
-    fetch(`/api/exams/${examId}/answer`, {
-      method: 'POST',
-      body: JSON.stringify({
-        questionId: questions[currentIndex].id,
-        answers: newAnswers
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    })
+    try {
+      await fetch(`/api/exams/${examId}/answer`, {
+        method: 'POST',
+        body: JSON.stringify({
+          questionId: questions[currentIndex].question.id,
+          answers: newAnswers
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      })
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde de la réponse:', error)
+    }
   }
 
   const handleFinishExam = async () => {

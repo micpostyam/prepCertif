@@ -5,9 +5,18 @@ import { getAuthUser } from '@/lib/auth'
 
 export async function PUT(request: Request) {
   try {
-    const user = await getAuthUser()
+    const auth = await getAuthUser()
     const body = await request.json()
     const { name, email, currentPassword, newPassword } = body
+
+    // Récupérer l'utilisateur complet avec son mot de passe
+    const user = await prisma.user.findUnique({
+      where: { id: auth.id },
+    })
+
+    if (!user) {
+      return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 })
+    }
 
     // Vérifier le mot de passe actuel si un nouveau mot de passe est fourni
     if (newPassword) {
@@ -39,7 +48,7 @@ export async function PUT(request: Request) {
 
     // Mettre à jour l'utilisateur
     const updatedUser = await prisma.user.update({
-      where: { id: user.id },
+      where: { id: auth.id },
       data: updateData,
       select: {
         id: true,
