@@ -19,16 +19,27 @@ export async function GET(
     const exam = await prisma.exam.findUnique({
       where: { 
         id: examId,
-        userId: user.id 
+        // userId: user.id 
       },
       include: {
+        certification: true,
         examQuestions: {
           include: {
             question: {
               include: {
-                options: true
+                options: {
+                  select: {
+                    id: true,
+                    text: true,
+                    isCorrect: true,
+                    details: true
+                  }
+                }
               }
             }
+          },
+          orderBy: {
+            createdAt: 'asc'
           }
         }
       }
@@ -38,8 +49,18 @@ export async function GET(
       return NextResponse.json({ error: 'Examen non trouvé' }, { status: 404 })
     }
 
-    return NextResponse.json(exam)
+    // Transformer les réponses JSON en tableaux JavaScript
+    const formattedExam = {
+      ...exam,
+      examQuestions: exam.examQuestions.map(eq => ({
+        ...eq,
+        answers: JSON.parse(eq.answers || '[]')
+      }))
+    }
+
+    return NextResponse.json(formattedExam)
   } catch (error) {
+    console.error('Error in exam details:', error)
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des détails' },
       { status: 500 }
