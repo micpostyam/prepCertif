@@ -33,9 +33,9 @@ RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
 # USER node
 
 # # Launch app with PM2
-# CMD [ "pm2-runtime", "start", "npm", "--", "run", "dev" ]
+CMD [ "pm2-runtime", "start", "npm", "--", "run", "start" ]
 
-RUN chmod +x /usr/app/entrypoint.sh
+# RUN chmod +x /usr/app/entrypoint.sh
 
 # Exécuter le script d'entrée au démarrage du conteneur
-CMD ["/usr/app/entrypoint.sh"]
+# CMD ["/usr/app/entrypoint.sh"]
