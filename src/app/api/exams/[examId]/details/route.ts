@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getAuthUser } from '@/lib/auth'
@@ -6,10 +7,10 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(
   request: Request,
-  { params }: { params: { examId: string } }
+  context: any
 ) {
   try {
-    const examId = (await params).examId
+    const examId = await context.params.examId
     const user = await getAuthUser()
     
     if (!user) {

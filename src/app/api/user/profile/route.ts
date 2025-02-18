@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { hash, compare } from 'bcrypt'
 import { prisma } from '@/lib/prisma'
@@ -6,6 +7,9 @@ import { getAuthUser } from '@/lib/auth'
 export async function PUT(request: Request) {
   try {
     const auth = await getAuthUser()
+    if (!auth) {
+      return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
+    }
     const body = await request.json()
     const { name, email, currentPassword, newPassword } = body
 

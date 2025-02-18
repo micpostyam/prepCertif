@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"; 
+
 import { getAuthUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { ProfileForm } from '@/components/profile/ProfileForm'
@@ -5,6 +7,10 @@ import { ProfileForm } from '@/components/profile/ProfileForm'
 export default async function ProfilePage() {
   const auth = await getAuthUser()
   
+  if (!auth) {
+    throw new Error("Not authenticated")
+  }
+
   const user = await prisma.user.findUnique({
     where: { id: auth.id },
     select: {
@@ -14,8 +20,6 @@ export default async function ProfilePage() {
       role: true,
     },
   })
-
-  console.log(user)
 
   return (
     <div className="space-y-6">

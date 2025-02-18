@@ -12,12 +12,15 @@ async function getDecodedToken(token: string): Promise<DecodedToken | null> {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'secret')
     const { payload } = await jose.jwtVerify(token, secret)
     
-    if (!payload.userId || !payload.role) {
-      console.log("Token missing required fields");
+    if (typeof payload.userId !== 'string' || !['ADMIN', 'USER'].includes(payload.role as string)) {
+      console.log("Token missing required fields or invalid values");
       return null;
     }
     
-    return payload as DecodedToken;
+    return {
+      userId: payload.userId,
+      role: payload.role as 'ADMIN' | 'USER'
+    };
   } catch (error) {
     console.error("Token verification failed:", error);
     return null;

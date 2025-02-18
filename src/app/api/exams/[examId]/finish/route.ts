@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
@@ -5,9 +6,9 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   request: Request,
-  { params }: { params: { examId: string } }
+  context: any
 ) {
-  const { examId } = params
+  const { examId } = context.params
 
   try {
     // Récupérer toutes les questions de l'examen
@@ -38,7 +39,7 @@ export async function POST(
     })
 
     return NextResponse.json(updatedExam)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erreur lors de la finalisation de l'examen" },
       { status: 500 }

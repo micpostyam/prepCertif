@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 export async function POST(
   request: Request,
-  { params }: { params: { examId: string } }
+  context: any
 ) {
-  const { examId } = params
+  const { examId } = context.params
 
   try {
     const { questionId, answers } = await request.json()
@@ -49,7 +50,7 @@ export async function POST(
     })
 
     return NextResponse.json(updatedExamQuestion)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Erreur lors de l'enregistrement de la réponse" },
       { status: 500 }

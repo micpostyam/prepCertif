@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { hash } from 'bcrypt'
 import { prisma } from '@/lib/prisma'
@@ -13,12 +14,13 @@ async function checkAdminRole() {
 
 export async function PUT(
   request: Request,
-  { params }: { params: { userId: string } }
+  context: any
 ) {
   if (!await checkAdminRole()) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   }
 
+  const { params } = context
   const body = await request.json()
   const { email, name, password, role } = body
 
@@ -48,11 +50,13 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { userId: string } }
+  context: any
 ) {
   if (!await checkAdminRole()) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   }
+
+  const { params } = context
 
   await prisma.user.delete({
     where: { id: params.userId },

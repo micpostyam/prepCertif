@@ -50,6 +50,7 @@ export async function POST(request: Request) {
       .sign(secret)
 
     // Ne pas renvoyer le mot de passe
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...userWithoutPassword } = user
     
     const response = NextResponse.json({

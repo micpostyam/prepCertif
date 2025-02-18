@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  # MySQL service
+  mysql:
+    image: mysql:8.0
+    container_name: my-mysql
+    ports:
+      - '3305:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+
+  # Next.js app service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-nextjs-app
+    ports:
+      - '3000:3000'
+      - '5555:5555'
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_URL: ${DATABASE_URL}
+
+volumes:
+  mysql_data:

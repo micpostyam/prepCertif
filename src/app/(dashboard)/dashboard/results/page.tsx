@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -5,7 +6,7 @@ import { ExamResultModal } from '@/components/exam/ExamResultModal'
 
 export default function ResultsPage() {
   const [exams, setExams] = useState([])
-  const [selectedExam, setSelectedExam] = useState(null)
+  const [selectedExam, setSelectedExam] = useState<{id: string} | null>(null)
 
   useEffect(() => {
     fetch('/api/exams')

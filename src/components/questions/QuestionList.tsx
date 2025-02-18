@@ -45,7 +45,7 @@ export function QuestionList() {
       if (!response.ok) throw new Error('Erreur lors de la suppression')
       
       setQuestions(questions.filter(q => q.id !== id))
-    } catch (error) {
+    } catch {
       alert('Erreur lors de la suppression')
     }
   }

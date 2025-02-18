@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
@@ -9,7 +10,7 @@ const ITEMS_PER_PAGE = 10
 
 export default function AdminResultsPage() {
   const [results, setResults] = useState([])
-  const [selectedExam, setSelectedExam] = useState(null)
+  const [selectedExam, setSelectedExam] = useState<{id: string} | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 

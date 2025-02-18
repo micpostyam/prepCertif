@@ -39,7 +39,7 @@ export function CertificationList() {
       if (!response.ok) throw new Error('Erreur lors de la suppression')
       
       await fetchCertifications() // Rafraîchir la liste
-    } catch (error) {
+    } catch {
       alert('Erreur lors de la suppression')
     }
   }

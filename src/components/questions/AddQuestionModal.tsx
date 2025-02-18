@@ -96,7 +96,7 @@ export function AddQuestionModal({ isOpen, onClose, onSuccess }: AddQuestionModa
         certificationId: '',
         options: [{ text: '', details: '', isCorrect: false }]
       })
-    } catch (error) {
+    } catch {
       alert('Erreur lors de l\'ajout de la question')
     } finally {
       setIsSubmitting(false)

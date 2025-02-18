@@ -1,8 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Preparation Certification
 
-## Getting Started
+Ce projet vise à préparer les certifications développeur en centralisant ressources et exercices d'entrainement.
 
-First, run the development server:
+## Démarrage rapide
+
+Pour lancer le serveur de développement :
 
 ```bash
 npm run dev

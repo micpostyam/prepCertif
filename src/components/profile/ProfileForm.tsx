@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState } from 'react'
@@ -35,7 +36,7 @@ export function ProfileForm({ user }: { user: any }) {
       if (!response.ok) throw new Error('Échec de la mise à jour')
       
       toast.success('Profil mis à jour avec succès')
-    } catch (error) {
+    } catch {
       toast.error('Erreur lors de la mise à jour du profil')
     } finally {
       setIsLoading(false)

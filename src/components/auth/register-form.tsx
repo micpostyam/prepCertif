@@ -160,9 +160,9 @@ export function RegisterForm() {
           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
         />
         <label htmlFor="acceptTerms" className="ml-2 block text-sm text-gray-900">
-          J'accepte les{' '}
+          J&apos;accepte les{' '}
           <a href="/terms" className="font-medium text-indigo-600 hover:text-indigo-500">
-            conditions d'utilisation
+            conditions d&apos;utilisation
           </a>
         </label>
       </div>

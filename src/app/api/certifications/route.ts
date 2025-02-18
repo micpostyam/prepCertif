@@ -7,7 +7,7 @@ export async function GET() {
       orderBy: { createdAt: 'desc' }
     })
     return NextResponse.json(certifications)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des certifications' },
       { status: 500 }
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       }
     })
     return NextResponse.json(certification)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la création de la certification' },
       { status: 500 }
@@ -52,7 +52,7 @@ export async function DELETE(request: Request) {
     })
 
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la suppression' },
       { status: 500 }

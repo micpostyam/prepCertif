@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
@@ -11,7 +12,7 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     })
     return NextResponse.json(questions)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des questions' },
       { status: 500 }
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
     })
     
     return NextResponse.json(question)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la création de la question' },
       { status: 500 }
@@ -74,7 +75,7 @@ export async function DELETE(request: Request) {
     })
 
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Erreur lors de la suppression' },
       { status: 500 }
