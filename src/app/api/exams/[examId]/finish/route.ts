@@ -25,7 +25,7 @@ export async function POST(
 
     // Calculer le score
     const totalQuestions = exam.examQuestions.length
-    const correctAnswers = exam.examQuestions.filter((q) => q.isCorrect === true).length
+    const correctAnswers = exam.examQuestions.filter((q: { isCorrect: boolean | null }) => q.isCorrect === true).length
     const score = (correctAnswers / totalQuestions) * 100
 
     // Mettre à jour l'examen
