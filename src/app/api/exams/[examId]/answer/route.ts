@@ -32,8 +32,8 @@ export async function POST(
 
     // Vérifier si les réponses sont correctes
     const correctOptionIds = examQuestion.question.options
-      .filter(opt => opt.isCorrect)
-      .map(opt => opt.id)
+      .filter((opt: { isCorrect: boolean }) => opt.isCorrect)
+      .map((opt: { id: string }) => opt.id)
 
     const isCorrect = correctOptionIds.length === answers.length &&
       correctOptionIds.every(id => answers.includes(id))
