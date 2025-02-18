@@ -7,8 +7,10 @@ services:
       - web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`certif.ustudyguide.com`)"
-      - "traefik.http.services.web.loadbalancer.server.port=80"
+      - "traefik.http.routers.certif-ustudyguide.rule=Host(`certif.ustudyguide.com`)"
+      - "traefik.http.routers.certif-ustudyguide.entrypoints=websecure"
+      - "traefik.http.services.certif-ustudyguide.loadbalancer.server.port=3000"
+      - "traefik.http.routers.certif-ustudyguide.tls=true"
 
 networks:
   web:

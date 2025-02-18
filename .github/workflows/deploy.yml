@@ -62,7 +62,7 @@ jobs:
           script: |
             cd ${{ env.DEPLOY_PATH }}
             docker system prune -f
-            export DATABASE_URL="mysql://ets_user:ets_password@mysql-container:3306/certif_db"
+            export DATABASE_URL="mysql://root:root@mysql-container:3306/certif_db"
             docker compose -f docker-compose-prod.yml pull
             docker compose -f docker-compose-prod.yml down --remove-orphans
             docker compose -f docker-compose-prod.yml up -d

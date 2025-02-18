@@ -26,7 +26,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # Expose the listening port
-EXPOSE 80
+EXPOSE 3000
 
 # RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
 
@@ -34,7 +34,7 @@ EXPOSE 80
 # The "node" user is provided in the Node.js Alpine base image
 # USER node
 
-# # Launch app with PM2
+# Launch app with PM2
 CMD [ "pm2-runtime", "start", "npm", "--", "run", "start" ]
 
 # RUN chmod +x /usr/app/entrypoint.sh
