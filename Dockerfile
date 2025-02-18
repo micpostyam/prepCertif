@@ -26,7 +26,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # Expose the listening port
-EXPOSE 3000
+EXPOSE 80
 
 # RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
 
