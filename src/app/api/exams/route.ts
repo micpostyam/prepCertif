@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         certificationId,
         status: 'in_progress',
         examQuestions: {
-          create: shuffledQuestions.map(question => ({
+          create: shuffledQuestions.map((question: { id: string }) => ({
             questionId: question.id,
             answers: '[]' 
           }))
