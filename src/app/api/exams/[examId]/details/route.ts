@@ -53,7 +53,7 @@ export async function GET(
     // Transformer les réponses JSON en tableaux JavaScript
     const formattedExam = {
       ...exam,
-      examQuestions: exam.examQuestions.map(eq => ({
+      examQuestions: exam.examQuestions.map((eq: { answers: string }) => ({
         ...eq,
         answers: JSON.parse(eq.answers || '[]')
       }))
