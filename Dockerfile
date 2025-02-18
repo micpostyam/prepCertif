@@ -17,6 +17,8 @@ RUN npm install
 # Copy all files
 COPY ./ ./
 
+RUN npx prisma generate
+
 # Change ownership to the non-root user
 # RUN chown -R node:node /usr/app
 
@@ -26,7 +28,7 @@ RUN npm run build
 # Expose the listening port
 EXPOSE 3000
 
-RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
 
 # Run container as non-root (unprivileged) user
 # The "node" user is provided in the Node.js Alpine base image
