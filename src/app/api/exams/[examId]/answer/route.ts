@@ -36,7 +36,7 @@ export async function POST(
       .map((opt: { id: string }) => opt.id)
 
     const isCorrect = correctOptionIds.length === answers.length &&
-      correctOptionIds.every(id => answers.includes(id))
+      correctOptionIds.every((id: string) => answers.includes(id))
 
     // Mettre à jour la question d'examen
     const updatedExamQuestion = await prisma.examQuestion.update({
