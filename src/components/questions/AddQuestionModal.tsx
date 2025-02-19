@@ -160,41 +160,43 @@ export function AddQuestionModal({ isOpen, onClose, onSuccess }: AddQuestionModa
               </Button>
             </div>
             
-            {formData.options.map((option, index) => (
-              <div key={index} className="space-y-2 p-4 border rounded relative">
-                <div className="flex gap-2">
-                  <Input
-                    placeholder={`Option ${index + 1}`}
-                    value={option.text}
-                    onChange={(e) => handleOptionChange(index, 'text', e.target.value)}
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant={option.isCorrect ? "default" : "outline"}
-                    onClick={() => handleOptionChange(index, 'isCorrect', !option.isCorrect)}
-                  >
-                    {option.isCorrect ? 'Correcte' : 'Incorrecte'}
-                  </Button>
-                  {formData.options.length > 1 && (
+            <div className="max-h-[40vh] overflow-y-auto space-y-4 pr-2">
+              {formData.options.map((option, index) => (
+                <div key={index} className="space-y-2 p-4 border rounded relative">
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder={`Option ${index + 1}`}
+                      value={option.text}
+                      onChange={(e) => handleOptionChange(index, 'text', e.target.value)}
+                      required
+                    />
                     <Button
                       type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeOption(index)}
-                      className="text-red-600 hover:text-red-800 hover:bg-red-100"
+                      variant={option.isCorrect ? "default" : "outline"}
+                      onClick={() => handleOptionChange(index, 'isCorrect', !option.isCorrect)}
                     >
-                      <MinusIcon className="h-4 w-4" />
+                      {option.isCorrect ? 'Correcte' : 'Incorrecte'}
                     </Button>
-                  )}
+                    {formData.options.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeOption(index)}
+                        className="text-red-600 hover:text-red-800 hover:bg-red-100"
+                      >
+                        <MinusIcon className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                  <Input
+                    placeholder="Détails (optionnel)"
+                    value={option.details}
+                    onChange={(e) => handleOptionChange(index, 'details', e.target.value)}
+                  />
                 </div>
-                <Input
-                  placeholder="Détails (optionnel)"
-                  value={option.details}
-                  onChange={(e) => handleOptionChange(index, 'details', e.target.value)}
-                />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <Button type="submit" disabled={isSubmitting}>
