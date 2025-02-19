@@ -3,6 +3,8 @@ version: '3.8'
 services:
   web:
     image: micpostyam/prepcertif:latest
+    env_file:
+      - .env
     networks:
       - web
     labels:
