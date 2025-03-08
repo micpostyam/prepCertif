@@ -97,8 +97,8 @@ export function ExamModal({ certification }: ExamModalProps) {
   const currentQuestion = questions[currentIndex]
 
   return (
-    <div className="fixed inset-0 bg-white z-50 p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="fixed inset-0 bg-white z-50 flex flex-col">
+      <div className="max-w-4xl w-full mx-auto p-6 flex flex-col h-full">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-xl font-semibold">
             Question {currentIndex + 1} / {questions.length}
@@ -110,44 +110,48 @@ export function ExamModal({ certification }: ExamModalProps) {
         </div>
 
         {currentQuestion && (
-          <div className="space-y-6">
-            <div>
-              <div dangerouslySetInnerHTML={{ __html: currentQuestion.question.text }} />
-              <div className="text-sm text-gray-500 mt-2">
-                {currentQuestion.question.options.filter((opt: any) => opt.isCorrect).length > 1
-                  ? "Sélectionnez toutes les réponses correctes"
-                  : "Sélectionnez une seule réponse"}
+          <div className="flex flex-col flex-grow overflow-hidden">
+            <div className="overflow-y-auto flex-grow">
+              <div className="space-y-6">
+                <div>
+                  <div dangerouslySetInnerHTML={{ __html: currentQuestion.question.text }} />
+                  <div className="text-sm text-gray-500 mt-2">
+                    {currentQuestion.question.options.filter((opt: any) => opt.isCorrect).length > 1
+                      ? "Sélectionnez toutes les réponses correctes"
+                      : "Sélectionnez une seule réponse"}
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  {currentQuestion.question.options.map((option: any) => (
+                    <button
+                      key={option.id}
+                      onClick={() => handleAnswer(option.id)}
+                      className={`w-full p-4 text-left border rounded-lg ${
+                        answers[currentQuestion.id]?.includes(option.id)
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'hover:bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-5 h-5 border rounded-${currentQuestion.question.options.filter((opt: any) => opt.isCorrect).length > 1 ? 'md' : 'full'} flex items-center justify-center ${
+                          answers[currentQuestion.id]?.includes(option.id)
+                            ? 'bg-blue-500 border-blue-500'
+                            : 'border-gray-300'
+                        }`}>
+                          {answers[currentQuestion.id]?.includes(option.id) && (
+                            <span className="text-white text-sm">✓</span>
+                          )}
+                        </div>
+                        {option.text}
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-            
-            <div className="space-y-3">
-              {currentQuestion.question.options.map((option: any) => (
-                <button
-                  key={option.id}
-                  onClick={() => handleAnswer(option.id)}
-                  className={`w-full p-4 text-left border rounded-lg ${
-                    answers[currentQuestion.id]?.includes(option.id)
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 border rounded-${currentQuestion.question.options.filter((opt: any) => opt.isCorrect).length > 1 ? 'md' : 'full'} flex items-center justify-center ${
-                      answers[currentQuestion.id]?.includes(option.id)
-                        ? 'bg-blue-500 border-blue-500'
-                        : 'border-gray-300'
-                    }`}>
-                      {answers[currentQuestion.id]?.includes(option.id) && (
-                        <span className="text-white text-sm">✓</span>
-                      )}
-                    </div>
-                    {option.text}
-                  </div>
-                </button>
-              ))}
-            </div>
 
-            <div className="flex justify-between pt-4">
+            <div className="flex justify-between pt-4 mt-4">
               <Button
                 onClick={() => setCurrentIndex(i => i - 1)}
                 disabled={currentIndex === 0}
