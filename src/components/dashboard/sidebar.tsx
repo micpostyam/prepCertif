@@ -14,6 +14,7 @@ import {
 const userNavigation = [
   { name: 'Examens', href: '/dashboard', icon: ClipboardDocumentCheckIcon },
   { name: 'Résultats', href: '/dashboard/results', icon: DocumentCheckIcon },
+  { name: 'Entrainement', href: '/dashboard/training', icon: AcademicCapIcon },
   { name: 'Profil', href: '/dashboard/profile', icon: UserIcon },
 ]
 
